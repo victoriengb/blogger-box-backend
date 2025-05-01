@@ -1,40 +1,57 @@
 package com.dauphine.blogger_box_backend.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.dauphine.blogger_box_backend.service.CategoryService;
+import com.dauphine.blogger_box_backend.service.PostService;
+import org.springframework.web.bind.annotation.*;
 
 import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.Post;
 
 @RestController
+@RequestMapping("/v1/posts")
 public class PostController {
-    @GetMapping("/v1/posts/{date}")
-    public String getPostsByDate(@PathVariable String date) {
-        // Logic to retrieve posts by date
-        return "Posts for date: " + date;
+
+    private final PostService postService;
+
+    public PostController(PostService service) {
+        this.postService = service;
     }
 
-    @GetMapping("/v1/categories/{id}/posts")
-    public List<Category> getPostsByCategoryId(@RequestParam String id) {
-        return null;
+
+    @GetMapping
+    public List<Post> getAllPosts() {
+        return postService.getAll();
     }
 
-    @PostMapping("/v1/posts")
-    public String createPost(@RequestBody Post post) {
-        // Logic to create a new post
-        return "Post created: " + post;
+    @GetMapping("/{id}")
+    public Post getPostById(@PathVariable UUID id) {
+        return postService.getById(id);
     }
 
-    @DeleteMapping("/v1/posts/{id}")
-    public String deletePostById(@PathVariable String id) {
-        // Logic to delete a post by ID
-        return "Post deleted with ID: " + id;
+    @GetMapping("/category/{categoryId}")
+    public List<Post> getPostsByCategoryId(@PathVariable UUID categoryId) {
+        return postService.getAllByCategoryId(categoryId);
+    }
+
+    @PostMapping
+    public Post createPost(@RequestParam String title,
+                           @RequestParam String content,
+                           @RequestParam UUID categoryId) {
+        return postService.create(title, content, categoryId);
+    }
+
+    @PutMapping("/{id}")
+    public Post updatePost(@PathVariable UUID id,
+                           @RequestParam String title,
+                           @RequestParam String content) {
+        return postService.update(id, title, content);
+    }
+
+    @DeleteMapping("/{id}")
+    public UUID deletePost(@PathVariable UUID id) {
+        return postService.deleteById(id);
     }
 }
