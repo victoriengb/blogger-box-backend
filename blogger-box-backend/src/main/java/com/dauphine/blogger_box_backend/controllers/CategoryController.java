@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,65 +15,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dauphine.blogger_box_backend.model.Category;
-
-
+import com.dauphine.blogger_box_backend.service.CategoryService;
 
 
 @RestController
 @RequestMapping("/v1/categories")
 public class CategoryController {
 
-    public final List<Category> temporaryCategories;
+    private final CategoryService service;
 
-    public CategoryController(){
-        this.temporaryCategories = new ArrayList<Category>();
-        this.temporaryCategories.add(new Category(UUID.randomUUID(), "my first category"));
-        this.temporaryCategories.add(new Category(UUID.randomUUID(), "my second category"));
-        this.temporaryCategories.add(new Category(UUID.randomUUID(), "my third category"));
+    public CategoryController(CategoryService service) {
+        this.service = service;
     }
 
     
     @GetMapping
     public List<Category> getAllCategories() {
-        return this.temporaryCategories;
+        return this.service.getAll();
     }
-    
 
-    /*
-    @GetMapping
-    public String getAllCategories() {
-        return this.temporaryCategories.toString();
-    }
-    */
 
     @GetMapping("{id}")
-    public Category getCategoryById(@RequestParam String id) {
-        return null;
+    public Category getCategoryById(@PathVariable UUID id) {
+        return this.service.getById(id);
     }
 
-    @PostMapping()
-    public Category createCategory(@RequestBody Category category) {
-        // Logic to save the category to the database or perform other operations
-        this.temporaryCategories.add(category);
-        return category;
+    @PostMapping
+    public Category createCategory(@RequestBody String name) {
+        return this.service.create(name);
     }
 
     @PutMapping("{id}")
-    public Category updateCategoryByID(@PathVariable String id, @RequestBody Category category) {
-        // Logic to update the category with the given id in the database
-        return category;
-    }
-
-    @PatchMapping("{id}")
-    public Category partialUpdateCategoryByID(@PathVariable String id, @RequestBody Category category) {
-        // Logic to partially update the category with the given id in the database
-        return category;
-        //Return response entity
-        //Gérer les exceptions
+    public Category updateCategory(@PathVariable UUID id, @RequestBody String name) {
+        return service.update(id, name);
     }
 
     @DeleteMapping ("{id}")
-    public void deleteCategoryByID(@PathVariable String id) {
-        // Logic to delete the category with the given id from the database
+    public UUID deleteCategoryByID(@PathVariable UUID id) {
+        return this.service.deleteById(id);
     }
 }
