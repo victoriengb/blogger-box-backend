@@ -2,24 +2,25 @@ package com.dauphine.blogger_box_backend.model;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Post {
     UUID id;
     String title;
     String content;
-    Timestamp created_date;
+    LocalDateTime created_date;
     UUID category_id;
 
     public Post() {
         this.id = UUID.randomUUID();
         this.title = "";
         this.content = "";
-        this.created_date = new Timestamp(System.currentTimeMillis());
+        this.created_date = LocalDateTime.now();
         this.category_id = null;
     }
 
-    public Post(UUID id, String title, String content, Timestamp created_date, UUID category_id) {
+    public Post(UUID id, String title, String content, LocalDateTime created_date, UUID category_id) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -39,7 +40,7 @@ public class Post {
         return content;
     }
 
-    public Timestamp getCreated_date() {
+    public LocalDateTime getCreated_date() {
         return created_date;
     }
 
@@ -59,7 +60,7 @@ public class Post {
         this.content = content;
     }
 
-    public void setCreated_date(Timestamp created_date) {
+    public void setCreated_date(LocalDateTime created_date) {
         this.created_date = created_date;
     }
 

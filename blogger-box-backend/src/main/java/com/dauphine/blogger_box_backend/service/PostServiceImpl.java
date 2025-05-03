@@ -4,6 +4,7 @@ import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.Post;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class PostServiceImpl implements PostService {
                 UUID.randomUUID(),
                 "First Post",
                 "Content of First Post",
-                new Timestamp(System.currentTimeMillis()),
+                LocalDateTime.now(),
                 UUID.randomUUID()
         ));
 
@@ -30,7 +31,7 @@ public class PostServiceImpl implements PostService {
                 UUID.randomUUID(),
                 "Second Post",
                 "Content of Second Post",
-                new Timestamp(System.currentTimeMillis()),
+                LocalDateTime.now(),
                 UUID.randomUUID()
         ));
 
@@ -38,7 +39,7 @@ public class PostServiceImpl implements PostService {
                 UUID.randomUUID(),
                 "Third Post",
                 "Content of Third Post",
-                new Timestamp(System.currentTimeMillis()),
+                LocalDateTime.now(),
                 UUID.randomUUID()
         ));
 
@@ -65,7 +66,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post create(String title, String content, UUID categoryId) {
-        Post post = new Post(UUID.randomUUID(), title, content, new Timestamp(System.currentTimeMillis()), categoryId);
+        Post post = new Post(UUID.randomUUID(), title, content, LocalDateTime.now(), categoryId);
         this.temporaryPosts.add(post);
         return post;
     }
