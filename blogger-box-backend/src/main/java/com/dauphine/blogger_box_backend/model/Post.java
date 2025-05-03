@@ -1,13 +1,12 @@
 package com.dauphine.blogger_box_backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
+@Table(name = "post")
 public class Post {
     @Id
     @Column(name = "id")
@@ -18,7 +17,7 @@ public class Post {
     String content;
     @Column(name = "created_date")
     LocalDateTime createdDate;
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "category_id")
     Category category;
 
