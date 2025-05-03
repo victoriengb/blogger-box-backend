@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.dauphine.blogger_box_backend.service.CategoryService;
+import com.dauphine.blogger_box_backend.service.CategoryServiceImpl;
 import com.dauphine.blogger_box_backend.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,9 @@ public class PostController {
     public Post createPost(@RequestParam String title,
                            @RequestParam String content,
                            @RequestParam UUID categoryId) {
-        return postService.create(title, content, categoryId);
+        Category category = new Category();
+        category.setId(categoryId);
+        return postService.create(title, content, category);
     }
 
     @PutMapping("/{id}")

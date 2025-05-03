@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import java.sql.Timestamp;
-
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -24,7 +22,7 @@ public class PostServiceImpl implements PostService {
                 "First Post",
                 "Content of First Post",
                 LocalDateTime.now(),
-                UUID.randomUUID()
+                new Category()
         ));
 
         this.temporaryPosts.add(new Post(
@@ -32,7 +30,7 @@ public class PostServiceImpl implements PostService {
                 "Second Post",
                 "Content of Second Post",
                 LocalDateTime.now(),
-                UUID.randomUUID()
+                new Category()
         ));
 
         this.temporaryPosts.add(new Post(
@@ -40,7 +38,7 @@ public class PostServiceImpl implements PostService {
                 "Third Post",
                 "Content of Third Post",
                 LocalDateTime.now(),
-                UUID.randomUUID()
+                new Category()
         ));
 
     }
@@ -65,8 +63,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post create(String title, String content, UUID categoryId) {
-        Post post = new Post(UUID.randomUUID(), title, content, LocalDateTime.now(), categoryId);
+    public Post create(String title, String content, Category category) {
+        Post post = new Post(UUID.randomUUID(), title, content, LocalDateTime.now(), category);
         this.temporaryPosts.add(post);
         return post;
     }

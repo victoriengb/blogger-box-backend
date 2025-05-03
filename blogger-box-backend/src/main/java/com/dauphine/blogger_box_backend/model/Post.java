@@ -1,31 +1,41 @@
 package com.dauphine.blogger_box_backend.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Post {
+    @Id
+    @Column(name = "id")
     UUID id;
+    @Column(name = "title")
     String title;
+    @Column(name = "content")
     String content;
-    LocalDateTime created_date;
-    UUID category_id;
+    @Column(name = "created_date")
+    LocalDateTime createdDate;
+    @ManyToMany
+    @JoinColumn(name = "category_id")
+    Category category;
 
     public Post() {
         this.id = UUID.randomUUID();
         this.title = "";
         this.content = "";
-        this.created_date = LocalDateTime.now();
-        this.category_id = null;
+        this.createdDate = LocalDateTime.now();
+        this.category = new Category();
     }
 
-    public Post(UUID id, String title, String content, LocalDateTime created_date, UUID category_id) {
+    public Post(UUID id, String title, String content, LocalDateTime createdDate, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.created_date = created_date;
-        this.category_id = category_id;
+        this.createdDate = createdDate;
+        this.category = category;
     }
 
     public UUID getId() {
@@ -40,12 +50,16 @@ public class Post {
         return content;
     }
 
-    public LocalDateTime getCreated_date() {
-        return created_date;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
     public UUID getCategoryId() {
-        return category_id;
+        return category.getId();
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     public void setId(UUID id) {
@@ -60,11 +74,11 @@ public class Post {
         this.content = content;
     }
 
-    public void setCreated_date(LocalDateTime created_date) {
-        this.created_date = created_date;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public void setCategory_id(UUID category_id) {
-        this.category_id = category_id;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
