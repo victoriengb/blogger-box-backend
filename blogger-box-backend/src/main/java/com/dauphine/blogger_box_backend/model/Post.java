@@ -1,5 +1,6 @@
 package com.dauphine.blogger_box_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class Post {
     @Column(name = "content")
     String content;
     @Column(name = "created_date")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     LocalDateTime createdDate;
     @ManyToOne
     @JoinColumn(name = "category_id")
