@@ -58,10 +58,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category update(UUID id, String name) {
         Category category = this.getById(id);
-        if (category != null) {
-            category.setName(name);
+        if (category == null) {
+            return null;
         }
-        return category;
+        category.setName(name);
+        return this.categoryRepository.save(category);
     }
 
     @Override
