@@ -70,6 +70,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getAllByTitleOrContent(String search) {
+        return this.postRepository.findAllByTitleOrContent(search);
+    }
+
+    @Override
     public Post getById(UUID id) {
         /*
         return temporaryPosts.stream()

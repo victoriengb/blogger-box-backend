@@ -35,6 +35,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<Category> getAllLikeName(String name) {
+        return this.categoryRepository.findAllLikeName(name);
+    }
+
+    @Override
     public Category getById(UUID id) {
         /*
         return temporaryCategories.stream()

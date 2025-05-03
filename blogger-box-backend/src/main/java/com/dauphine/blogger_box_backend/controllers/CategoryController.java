@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +31,14 @@ public class CategoryController {
 
     
     @GetMapping
-    public List<Category> getAllCategories() {
-        return this.service.getAll();
+    @Operation(
+            summary = "Get all categories",
+            description = "Retrieve all categories or filter by name"
+    )
+    public List<Category> getAllCategories(@RequestParam(required = false) String name) {
+        return name == null || name.isBlank()
+                ? this.service.getAll()
+                : this.service.getAllLikeName(name);
     }
 
 

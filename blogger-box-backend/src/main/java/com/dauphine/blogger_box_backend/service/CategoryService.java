@@ -9,6 +9,8 @@ public interface CategoryService {
 
     public List<Category> getAll();
 
+    public List<Category> getAllLikeName(String name);
+
     public Category getById(UUID id);
 
     public Category create(String name);

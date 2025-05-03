@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.dauphine.blogger_box_backend.service.CategoryService;
 import com.dauphine.blogger_box_backend.service.CategoryServiceImpl;
 import com.dauphine.blogger_box_backend.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
 import com.dauphine.blogger_box_backend.model.Category;
@@ -23,8 +24,15 @@ public class PostController {
 
 
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postService.getAll();
+    @Operation(
+            summary = "Get all posts",
+            description = "Retrieve all posts or filter by title or content"
+    )
+    public List<Post> getAllPosts(@RequestParam(required = false) String search) {
+
+        return search == null || search.isBlank()
+                ? this.postService.getAll()
+                : this.postService.getAllByTitleOrContent(search);
     }
 
     @GetMapping("/{id}")
