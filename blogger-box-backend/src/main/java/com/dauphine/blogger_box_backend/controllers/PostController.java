@@ -3,6 +3,7 @@ package com.dauphine.blogger_box_backend.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.dauphine.blogger_box_backend.dto.PostDTO;
 import com.dauphine.blogger_box_backend.service.CategoryService;
 import com.dauphine.blogger_box_backend.service.CategoryServiceImpl;
 import com.dauphine.blogger_box_backend.service.PostService;
@@ -45,6 +46,7 @@ public class PostController {
         return postService.getAllByCategoryId(categoryId);
     }
 
+    /*
     @PostMapping
     public Post createPost(@RequestParam String title,
                            @RequestParam String content,
@@ -52,6 +54,13 @@ public class PostController {
         Category category = new Category();
         category.setId(categoryId);
         return postService.create(title, content, category);
+    }
+
+     */
+
+    @PostMapping
+    public Post createPost(@RequestBody PostDTO postDto) {
+        return postService.create(postDto);
     }
 
     @PutMapping("/{id}")

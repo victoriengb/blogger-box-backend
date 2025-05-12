@@ -1,8 +1,10 @@
 package com.dauphine.blogger_box_backend.service;
 
+import com.dauphine.blogger_box_backend.dto.PostDTO;
 import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.Post;
 import com.dauphine.blogger_box_backend.repository.PostRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,7 @@ public class PostServiceImpl implements PostService {
     //public final List<Post> temporaryPosts;
 
     private final PostRepository postRepository;
+    private final CategoryService categoryService;
     /*
     public PostServiceImpl() {
         this.temporaryPosts = new ArrayList<>();
@@ -48,8 +51,9 @@ public class PostServiceImpl implements PostService {
 
      */
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, CategoryService categoryService) {
         this.postRepository = postRepository;
+        this.categoryService = categoryService;
     }
     @Override
     public List<Post> getAllByCategoryId(UUID categoryId) {
@@ -66,7 +70,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getAll() {
         //return this.temporaryPosts;
-        return this.postRepository.findAll();
+        //return this.postRepository.findAll();
+        return this.postRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
     }
 
     @Override
@@ -96,6 +101,17 @@ public class PostServiceImpl implements PostService {
         return post;
 
          */
+        return this.postRepository.save(post);
+    }
+
+    @Override
+    public Post create(PostDTO postDTO) {
+        //Category category = new Category();
+        //category.setId(postDTO.getCategoryId());
+
+        System.out.println("postDTO: " + postDTO);
+        Category category = categoryService.getById((UUID) postDTO.getCategoryId());
+        Post post = new Post(UUID.randomUUID(), postDTO.getTitle(), postDTO.getContent(), LocalDateTime.now(), category);
         return this.postRepository.save(post);
     }
 
